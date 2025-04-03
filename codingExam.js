@@ -10,10 +10,12 @@ button.addEventListener("click", function(){
     let downpercent = Number(window.prompt("Enter a downpayment as a percentage of the loan amount, no decimal pont, just a number. Ex: 15 instead of .15 or 15%"));
     let down = Number((loan * (downpercent/100)));
     let term = Number(window.prompt("enter loan term, only 15 or 30."));
-    let rate = .045;
+    
+    let rate = .0575;
     let principal = loan  - down;
 
     //calculate
+    try{
     let monthlyPayment = Number((((rate/12)*principal)/(1 - Math.pow(1 + (rate / 12),(term * -12)))).toFixed(2))
 
 
@@ -21,7 +23,6 @@ button.addEventListener("click", function(){
     
     
     let mortgageAmount = loan + totalInterest
-
     //print stuff
     let years = document.createElement("p")
     years.innerText = "Years: " + String(term);
@@ -48,9 +49,9 @@ button.addEventListener("click", function(){
     //big boy time
     let i = 1
     while (loan > 0){
-        let interestPaid = (loan*rate)/12
-        let realPaid = monthlyPayment - interestPaid
-        loan = loan - realPaid
+        let interestPaid = ((loan*rate)/12).toFixed(2)
+        let realPaid = (Number(monthlyPayment) - Number(interestPaid)).toFixed(2)
+        loan = (loan - realPaid).toFixed(2)
 
 
 
@@ -64,10 +65,20 @@ button.addEventListener("click", function(){
         
         i++
         results.appendChild(thingy);
+        if (i>term*12){
+            break
+        }
         
 
         
     }
+
+
+
+    }catch(TypeError){
+        window.alert("please try again")
+    }
+    
 
     
     
